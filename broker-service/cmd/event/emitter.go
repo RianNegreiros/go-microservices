@@ -1,7 +1,9 @@
 package event
 
 import (
+	"context"
 	"log"
+	"time"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
@@ -29,7 +31,11 @@ func (e *Emitter) Push(event string, severity string) error {
 
 	log.Println("Pushing event to queue")
 
-	err = channel.Publish(
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	err = channel.PublishWithContext(
+		ctx,
 		"logs_topic", // exchange
 		severity,     // routing key
 		false,        // mandatory
