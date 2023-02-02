@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/RianNegreiros/go-microservices/listener-service/event"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
@@ -17,7 +18,18 @@ func main() {
 		os.Exit(1)
 	}
 	defer rabbitConn.Close()
-	log.Println("Connected to RabbitMQ")
+
+	log.Println("Listening to RabbitMQ...")
+
+	consumer, err := event.NewConsumer(rabbitConn)
+	if err != nil {
+		panic(err)
+	}
+
+	err = consumer.Listen([]string{"log.INFO", "log.WARNING", "log.ERROR"})
+	if err != nil {
+		panic(err)
+	}
 }
 
 func connect() (*amqp.Connection, error) {
@@ -26,7 +38,7 @@ func connect() (*amqp.Connection, error) {
 	var connection *amqp.Connection
 
 	for {
-		c, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+		c, err := amqp.Dial("amqp://guest:guest@rabbitmq")
 		if err != nil {
 			fmt.Println("Trying to connect to RabbitMQ...")
 			counts++
