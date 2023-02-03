@@ -40,7 +40,7 @@ metadata:
   name: mongo
 spec:
   selector:
-    name: mongo
+    app: mongo
   ports:
     - protocol: TCP
       name: main-port
