@@ -26,7 +26,7 @@ From the root level of the project, execute this command (this assumes that you 
 [GNU make](https://www.gnu.org/software/make/) and a recent version
 of [Docker](https://www.docker.com/products/docker-desktop) installed on your machine):
 
-~~~
+~~~bash
 make up_build 
 ~~~
 
@@ -34,7 +34,7 @@ If the code has not changed, subsequent runs can just be `make up`.
 
 Then start the front end:
 
-~~~
+~~~bash
 make start
 ~~~
 
@@ -44,7 +44,7 @@ specify in the `docker-compose.yml file`).
 
 To stop everything:
 
-~~~
+~~~bash
 make stop
 make down
 ~~~
@@ -64,8 +64,8 @@ Where `auth` is one of the services:
 
 All make commands:
 
-~~~
-tcs@Grendel go-microservices % make help
+~~~bash
+go-microservices % make help
  Choose a command:
   up               starts all containers in the background without forcing build
   down             stop docker compose
